@@ -291,7 +291,7 @@ def generate_dataset(video_dir, frames_dir, datasets_dir):
 
 video_dir = '../videos/bottle'
 frames_dir = '../tmp'
-datasets_dir = '../out/datasets'
+datasets_dir = '../out/createml/datasets'
 
 generate_dataset(video_dir, frames_dir, datasets_dir)
 annotate(datasets_dir, 'bottle')
