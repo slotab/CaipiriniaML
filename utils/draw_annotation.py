@@ -22,21 +22,16 @@ def visualize_yolo_annotation(image_path, annotation_path, class_names=None):
         bbox_height = float(parts[4])
 
         # # Convertir les coordonnées relatives en coordonnées absolues
-        # x_center_abs = int(x_center * img_width)
-        # y_center_abs = int(y_center * img_height)
-        # bbox_width_abs = int(bbox_width * img_width)
-        # bbox_height_abs = int(bbox_height * img_height)
-        #
-        # # Calculer les coordonnées du rectangle (en haut à gauche, en bas à droite)
-        # x_min = int(x_center_abs - bbox_width_abs / 2)
-        # y_min = int(y_center_abs - bbox_height_abs / 2)
-        # x_max = int(x_center_abs + bbox_width_abs / 2)
-        # y_max = int(y_center_abs + bbox_height_abs / 2)
+        x_center_abs = int(x_center * img_width)
+        y_center_abs = int(y_center * img_height)
+        bbox_width_abs = int(bbox_width * img_width)
+        bbox_height_abs = int(bbox_height * img_height)
 
-        x_min = int(x_center - bbox_width / 2)   
-        y_min = int(y_center - bbox_height / 2)
-        x_max = int(x_center + bbox_width / 2)   # Dessiner le rectangle de la bounding box sur l'image
-        y_max = int(y_center + bbox_height / 2)
+        # # Calculer les coordonnées du rectangle (en haut à gauche, en bas à droite)
+        x_min = int(x_center_abs - bbox_width_abs / 2)
+        y_min = int(y_center_abs - bbox_height_abs / 2)
+        x_max = int(x_center_abs + bbox_width_abs / 2)   # Dessiner le rectangle de la bounding box sur l'image
+        y_max = int(y_center_abs + bbox_height_abs / 2)
 
         color = (0, 255, 0)  # Vert
         thickness = 2
@@ -54,8 +49,8 @@ def visualize_yolo_annotation(image_path, annotation_path, class_names=None):
 
 
 # Exemple d'utilisation
-image_path = '../../out/yolo/datasets/train/images/aperol_055_0001_brightness_0.jpg'
-annotation_path = '../../out/yolo/datasets/train/labels/aperol_055_0001_brightness_0.txt'
+image_path = '../../out/yolo/datasets/valid/images/aperol_002_0016_contrast_2.jpg'
+annotation_path = '../../out/yolo/datasets/valid/labels/aperol_002_0016_contrast_2.txt'
 
 class_names = ['martini',
                'cocacola',

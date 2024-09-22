@@ -105,12 +105,13 @@ def extract_frames_through_directories(source_directory, destination_directory, 
                 index += 1
 
 def convert_to_yolo_format(img_width, img_height, box):
-    """Convertir les coordonnées de détection en format YOLO"""
-    x_center = (box[0] + box[2] / 2) / img_width
-    y_center = (box[1] + box[3] / 2) / img_height
-    width = (box[2] - box[0]) / img_width
-    height = (box[3] - box[1]) / img_height
-    return x_center, y_center, width, height
+    x_center, y_center, width, height = box
+    x_center_normalized = x_center / img_width
+    y_center_normalized = y_center / img_height
+    width_normalized = width / img_width
+    height_normalized = height / img_height
+    return x_center_normalized, y_center_normalized, width_normalized, height_normalized
+
 
 def annotate(images_dir, filter, classes):
     """Annoter les images en utilisant le modèle YOLOv8 et sauvegarder les annotations au format YOLO"""
@@ -129,8 +130,8 @@ def annotate(images_dir, filter, classes):
                 target_class_id = classes.index(label) #int(box.cls[0])
                 class_name = model.names[yolo_class_id]
                 if class_name == filter and box.conf[0] > 0.6:
-                    x_center, y_center, width, height = box.xywh[0] #convert_to_yolo_format(img_width, img_height, box.xywh[0])
-                    yolo_annotations.append(f"{target_class_id} {x_center} {y_center} {width} {height}")
+                    x_center, y_center, width, height = convert_to_yolo_format(img_width, img_height, box.xywh[0])
+                    yolo_annotations.append(f"{target_class_id} {x_center:.6f} {y_center:.6f} {width:.6f} {height:.6f}")
 
         if len(yolo_annotations) == 0:
             os.remove(image_path)
@@ -279,6 +280,6 @@ annotate(frames_dir, 'bottle', classes)
 
 split_dataset(frames_dir, frames_dir, datasets_dir, ratios=(0.7, 0.2, 0.1))
 
-yaml_output_path = '../out/yolo/datasets/dataset.yaml'
+yaml_output_path = os.path.join(datasets_dir, 'dataset.yaml')
 
 generate_yaml(datasets_dir, 'caipirinia', classes, yaml_output_path)
