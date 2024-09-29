@@ -40,7 +40,7 @@ def visualize_yolo_annotation(image_path, annotation_path, class_names=None):
         # Ajouter le nom de la classe (si fourni)
         if class_names:
             class_name = class_names[class_id]
-            cv2.putText(img, class_name, (x_min, y_min - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            cv2.putText(img, class_name, (x_min, y_min - 10), cv2.FONT_HERSHEY_SIMPLEX, 2, color, 2)
 
     # Afficher l'image annotée
     cv2.imshow('YOLO Annotation Visualization', img)
@@ -49,18 +49,20 @@ def visualize_yolo_annotation(image_path, annotation_path, class_names=None):
 
 
 # Exemple d'utilisation
-image_path = '../../out/yolo/datasets/valid/images/aperol_002_0016_contrast_2.jpg'
-annotation_path = '../../out/yolo/datasets/valid/labels/aperol_002_0016_contrast_2.txt'
+image_path = '../dataset/train/images/images_IMG_7010.jpg'
+annotation_path = '../dataset/train/labels/images_IMG_7010.txt'
 
-class_names = ['martini',
-               'cocacola',
-               'gin',
-               'vodka',
-               'cointreau',
-               'tonic',
-               'rum',
-               'curacao',
-               'campari',
-               'aperol']
+class_names = ['gin']
+
+# class_names = ['martini',
+#                'cocacola',
+#                'gin',
+#                'vodka',
+#                'cointreau',
+#                'tonic',
+#                'rum',
+#                'curacao',
+#                'campari',
+#                'aperol']
 
 visualize_yolo_annotation(image_path, annotation_path, class_names)

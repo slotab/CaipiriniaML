@@ -1,0 +1,10 @@
+### Search by multi ingredients
+GET https://www.thecocktaildb.com/api/json/v2/{{key}}/filter.php?i=Light_rum,Lime,Mint
+
+
+### Search ingredient by name
+GET www.thecocktaildb.com/api/json/v2/{{key}}/search.php?i=vodka
+
+### Search ingredient by cocktail name
+GET  www.thecocktaildb.com/api/json/v2/{{key}}/search.php?s=mojito
+

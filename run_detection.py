@@ -1,12 +1,14 @@
 from ultralytics import YOLO
 import cv2
 
+
 def load_model(model_path):
     """
     Charge le modèle YOLO à partir d'un fichier.
     """
     model = YOLO(model_path, task="detect")
     return model
+
 
 def infer_and_draw(image_path, model):
     """
@@ -49,6 +51,7 @@ def infer_and_draw(image_path, model):
     cv2.imshow("YOLO Detection", image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
 
 # Exemple d'utilisation
 if __name__ == "__main__":
