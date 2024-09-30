@@ -1,12 +1,14 @@
 import os
 import supervision as sv
 
+
 HOME = os.getcwd()
 print(HOME)
 
 ANNOTATIONS_DIRECTORY_PATH = f"{HOME}/dataset/train/labels"
 IMAGES_DIRECTORY_PATH = f"{HOME}/dataset/train/images"
 DATA_YAML_PATH = f"{HOME}/dataset/data.yaml"
+
 SAMPLE_SIZE = 16
 SAMPLE_GRID_SIZE = (4, 4)
 SAMPLE_PLOT_SIZE = (16, 16)

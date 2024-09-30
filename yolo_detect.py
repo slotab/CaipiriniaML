@@ -5,7 +5,8 @@ import cv2
 HOME = os.getcwd()
 print(HOME)
 
-INPUT_VIDEO_PATH = f"{HOME}/../videos/tests/IMG_3830.MOV"
+INPUT_VIDEO_PATH = f"{HOME}/../videos/tests/IMG_7034.MOV"
+#INPUT_VIDEO_PATH = f"{HOME}/../videos/tests/IMG_7089.MOV"
 #OUTPUT_VIDEO_PATH = f"{HOME}/output.mp4"
 TRAINED_MODEL_PATH = f"{HOME}/../model/bottle/best.pt"
 

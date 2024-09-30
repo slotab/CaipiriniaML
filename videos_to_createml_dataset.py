@@ -277,21 +277,20 @@ def generate_dataset(video_dir, frames_dir, datasets_dir):
     extract_frames_through_directories(video_dir, frames_dir, 10)
 
     # Appeler la fonction pour redimensionner toutes les images du répertoire
-    resize_images_in_directory(frames_dir, (640, 1138))
+    resize_images_in_directory(frames_dir, (360, 640))
 
     # Appeler la fonction pour augmenter toutes les images du répertoire
     augment_images_in_directory(frames_dir, frames_dir)
 
     # Appeler la fonction pour répartir les fichiers en un dataset
-
-    ratios = [0.7, 0.2, 0.1]  # 70% train, 20% validation, 10% test
+    ratios = [0.7, 0.25, 0.05]  # 70% train, 25% validation, 5% test
     split_frames(frames_dir, datasets_dir, ratios)
 
 
 
 video_dir = '../videos/bottle'
 frames_dir = '../tmp'
-datasets_dir = '../out/createml/datasets'
+datasets_dir = '../out/createml/dataset'
 
 generate_dataset(video_dir, frames_dir, datasets_dir)
 annotate(datasets_dir, 'bottle')
