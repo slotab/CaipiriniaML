@@ -1,6 +1,13 @@
 from ultralytics import YOLO
 import cv2
+import os
 
+HOME = os.getcwd()
+print(HOME)
+
+###
+# Run alive detection on an image 
+###
 
 def load_model(model_path):
     """
@@ -56,8 +63,8 @@ def infer_and_draw(image_path, model):
 # Exemple d'utilisation
 if __name__ == "__main__":
 
-    model_path = "/Users/bslota/IdeaProjects/summer-challenge-ia/runs/yolov8_caipirinia_model3/weights/best.mlpackage"  # Remplace par le chemin vers ton modèle YOLO
-    image_path = "/Users/bslota/IdeaProjects/summer-challenge-ia/caipirinia/images/images_IMG_7010.jpg"  # Remplace par le chemin vers ton image
+    model_path = f"{HOME}/runs/yolov8_caipirinia_model3/weights/best.mlpackage"  # Remplace par le chemin vers ton modèle YOLO
+    image_path = f"{HOME}/images/images_IMG_7010.jpg"  # Remplace par le chemin vers ton image
 
     # Charger le modèle
     model = load_model(model_path)
