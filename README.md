@@ -1,9 +1,13 @@
 # CaipirinIA Model Training
 
-Scripts for generate a datasets from home-made videos, Then be able to train model for our iOs App
+Scripts for generate a datasets from home-made videos, and auto annotate it (with the help of an existing model). 
+Then be able to train model for our iOs App.
+
+
+![Architecture](screenshots/caiprinia.png)
+
 
 We almost work with 2 formats: CreateML and YOLO(v8)
-
 
 ## CreateML
 
