@@ -8,8 +8,8 @@ print(HOME)
 
 def repartition_data(base_dir, train_ratio=0.7, valid_ratio=0.25, test_ratio=0.05):
     # Définir les chemins des répertoires
-    images_dir = os.path.join(base_dir, 'all', 'images')
-    labels_dir = os.path.join(base_dir, 'all', 'labels')
+    images_dir = os.path.join(base_dir, 'new', 'images')
+    labels_dir = os.path.join(base_dir, 'new', 'labels')
     
     train_images_dir = os.path.join(base_dir, 'train', 'images')
     train_labels_dir = os.path.join(base_dir, 'train', 'labels')

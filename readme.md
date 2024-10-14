@@ -1,9 +1,13 @@
 # CaipirinIA Model Training
 
-Scripts for generate a datasets from home-made videos, Then be able to train model for our iOs App
+Scripts for generate a datasets from home-made videos, and auto annotate it (with the help of an existing model). 
+Then be able to train model for our iOs App.
+
+
+![Architecture](screenshots/caiprinia.png)
+
 
 We almost work with 2 formats: CreateML and YOLO(v8)
-
 
 ## CreateML
 
@@ -76,7 +80,7 @@ The most importnat script which will :
 - read convert.json file
 - extract frame from video
 - use a yolo model to detect object from the COCO class labels
-- convert detected annotation to annotation with our class labels (caiprinia_labels.txt)
+- convert detected annotation to annotation with our class labels [caipirinia_labels.txt](caipirinia_labels.txt) 
 - generate a dataset with images+labels
 
 ```
@@ -86,6 +90,17 @@ python videos_to_datasets.py
 The expected result of this script is a folder with:
 - a sub folder 'images' with all the extracted frame from videos where a detection has been done
 - a sub folder 'labels' with annotations text files (each file should have a corresponding image with same filename)
+
+
+The annotation files with the YOLO format in the 'labels' folder should respect this format:
+```
+<class_id> <x_center> <y_center> <width> <height>
+```
+
+The 'class_id' must correspond to the index from the list of class described in the [caipirinia_labels.txt](caipirinia_labels.txt) 
+
+
+
 
 **split_dataset**
 
@@ -106,6 +121,24 @@ But if you need to use CreateML, use the script 'generate_createml_annotations' 
 python generate_createml_annotations.py
 ```
 At the end of the script, you must see 1 file per images folder:  **_annotations.createml.json**
+
+The createml format is:
+```
+{
+  "annotations": [
+    {
+      "label": "class_name",
+      "coordinates": {
+        "x": <x_top_left>,
+        "y": <y_top_left>,
+        "width": <width>,
+        "height": <height>
+      }
+    }
+  ],
+  "image": "image_filename"
+}
+```
 
 **display_dataset.py**
 
@@ -142,6 +175,7 @@ train: /${HOME}/dataset/train
 val: /${HOME}/dataset/valid
 ```
 
+The 'names' must correspond to the [caipirinia_labels.txt](caipirinia_labels.txt) 
 
 
 ### Train the model with YOLO
@@ -217,6 +251,12 @@ func setupDetector() {
     }
 ```
 
+Some results:
+
+![Bottle test](screenshots/demo/IMG_7260.PNG)
+![Bottle test](screenshots/demo/IMG_7273.PNG)
+![Milk](screenshots/demo/IMG_7275.PNG)
+![Fruits](screenshots/demo/IMG_7363.jpg)
 
 
 ## Autodistill

@@ -24,7 +24,7 @@ lime
 mint
 orange
 apple
-grapefruit
+grape
 pineapple
 coconut
 cococream
@@ -37,3 +37,5 @@ water
 ice
 ace
 banana
+apple_juice
+fruits_juice

@@ -5,8 +5,9 @@ import supervision as sv
 HOME = os.getcwd()
 print(HOME)
 
-ANNOTATIONS_DIRECTORY_PATH = f"{HOME}/dataset/train/labels"
-IMAGES_DIRECTORY_PATH = f"{HOME}/dataset/train/images"
+DATASET_PATH = f"{HOME}/dataset/test"
+ANNOTATIONS_DIRECTORY_PATH = f"{DATASET_PATH}/labels"
+IMAGES_DIRECTORY_PATH = f"{DATASET_PATH}/images"
 DATA_YAML_PATH = f"{HOME}/dataset/data.yaml"
 
 SAMPLE_SIZE = 16

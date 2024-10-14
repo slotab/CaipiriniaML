@@ -4,11 +4,15 @@ import shutil
 import random
 import json
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageEnhance
 from ultralytics import YOLO
 
+HOME = os.getcwd()
+print(HOME)
+
 # Charger le modèle YOLOv8
-model = YOLO("yolov8n.pt")
+model = YOLO(f"{HOME}/runs/detect/caipirinia/weights/best.pt")
+
 
 def resize_image(image_path, target_size=(640, 640)):
     # Ouvrir l'image
@@ -18,6 +22,7 @@ def resize_image(image_path, target_size=(640, 640)):
         # Sauvegarder l'image redimensionnée
         resized_img.save(image_path)
         print(f"Image redimensionnée : {image_path}")
+
 
 def resize_images_in_directory(root_directory, target_size=(640, 640)):
     # Parcourir récursivement tous les fichiers du répertoire
@@ -32,17 +37,15 @@ def resize_images_in_directory(root_directory, target_size=(640, 640)):
                     print(f"Erreur lors du traitement de l'image {file_path} : {e}")
 
 
-import os
-from PIL import Image, ImageEnhance
-import random
-
 def adjust_brightness(image, factor):
     enhancer = ImageEnhance.Brightness(image)
     return enhancer.enhance(factor)
 
+
 def adjust_contrast(image, factor):
     enhancer = ImageEnhance.Contrast(image)
     return enhancer.enhance(factor)
+
 
 def augment_image(image_path, output_directory, base_filename):
     with Image.open(image_path) as img:
@@ -60,6 +63,7 @@ def augment_image(image_path, output_directory, base_filename):
             contrast_image.save(os.path.join(output_directory, f"{base_filename}_contrast_{i}.jpg"))
             print(f"Image avec variation de contraste générée : {base_filename}_contrast_{i}.jpg")
 
+
 def augment_images_in_directory(root_directory, output_directory):
     # Créer le répertoire de sortie s'il n'existe pas
     os.makedirs(output_directory, exist_ok=True)
@@ -72,8 +76,6 @@ def augment_images_in_directory(root_directory, output_directory):
             if file.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
                 base_filename, ext = os.path.splitext(file)
                 augment_image(file_path, output_directory, base_filename)
-
-
 
 
 def split_frames(input_directory, output_directory, ratios):
@@ -190,6 +192,7 @@ def yolo_to_createml_format(image_size, box, label=None):
         }
     }
 
+
 def compile_json_files(input_directory, output_file):
     # Liste pour stocker les données concaténées
     all_data = []
@@ -227,7 +230,8 @@ def compile_json_files(input_directory, output_file):
 
     print(f"Fichier JSON concaténé généré : {output_file}")
 
-def annotate(images_dir, filter):
+
+def annotate(images_dir):
     for pouet in 'train', 'test', 'valid':
         # Parcourir toutes les images du répertoire
         images_sub_dir = os.path.join(images_dir, pouet)
@@ -236,7 +240,7 @@ def annotate(images_dir, filter):
             img = Image.open(image_path)
             img_width, img_height = img.size
             img_name = os.path.splitext(image_path)[0]
-            label = image_path.stem.split('_')[0]
+            #label = image_path.stem.split('_')[0]
 
             # Faire une prédiction
             results = model.predict(source=str(image_path))
@@ -250,8 +254,8 @@ def annotate(images_dir, filter):
                     class_id = int(box.cls[0])
                     class_name = model.names[class_id]
                     # print(f"Classe: {class_name}, Confidence: {box.conf[0]:.2f}")
-                    if class_name == filter and box.conf[0] > 0.6:
-                        annotation = yolo_to_createml_format((img_width, img_height), box.xywh[0], label)
+                    if box.conf[0] > 0.5:
+                        annotation = yolo_to_createml_format((img_width, img_height), box.xywh[0], class_name)
                         annotations.append(annotation)
 
             if len(annotations) == 0:
@@ -287,10 +291,9 @@ def generate_dataset(video_dir, frames_dir, datasets_dir):
     split_frames(frames_dir, datasets_dir, ratios)
 
 
-
-video_dir = '../videos/bottle'
+video_dir = '../videos'
 frames_dir = '../tmp'
 datasets_dir = '../out/createml/dataset'
 
 generate_dataset(video_dir, frames_dir, datasets_dir)
-annotate(datasets_dir, 'bottle')
+annotate(datasets_dir)

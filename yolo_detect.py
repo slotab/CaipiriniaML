@@ -2,6 +2,7 @@ from ultralytics import YOLO
 import os
 import cv2
 
+
 ###
 # Run alive detection on a video 
 ###
@@ -10,11 +11,12 @@ HOME = os.getcwd()
 print(HOME)
 
 # VIDEO TO DETECT
-INPUT_VIDEO_PATH = f"{HOME}/../videos/tests/IMG_7034.MOV"
+INPUT_VIDEO_PATH = f"{HOME}/../videos/others/egg/IMG_7374.MOV"
 # MODEL TO USE
-TRAINED_MODEL_PATH = f"{HOME}/../model/bottle/best.pt"
+TRAINED_MODEL_PATH = f"{HOME}/yolov8n.pt"
 
 model = YOLO(TRAINED_MODEL_PATH)
+
 
 # Run inference on the source
 #results = model(INPUT_VIDEO_PATH, stream=True)

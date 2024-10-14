@@ -29,4 +29,4 @@ def update_class_id_in_folder(source_dir, original_class_id, target_class_id):
             print(f"Traitement effectué sur : {fichier}")
 
 
-update_class_id_in_folder(f"{HOME}/dataset/train/labels", '0', '22')
+update_class_id_in_folder(f"{HOME}/Limones.v2i.yolov8/test/labels", '0', '21')

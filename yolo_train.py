@@ -1,4 +1,12 @@
 from ultralytics import YOLO
+import os
+
+###
+# Training
+###
+
+HOME = os.getcwd()
+print(HOME)
 
 #model = YOLO("yolov8n.pt")  # Pour commencer, on utilise le modèle YOLOv8 pré-entraîné
 model = YOLO("yolov8n.yaml") # form scratch
@@ -7,4 +15,4 @@ model = YOLO("yolov8n.yaml") # form scratch
 data_yaml = "dataset/data.yaml"  # Le fichier .yaml qui décrit le dataset
 
 # Entraîner le modèle
-model.train(data=data_yaml, epochs=25, imgsz=640, name="lime", device="mps") # mps = Apple M2
+model.train(data=data_yaml, epochs=25, imgsz=640, name="caipirinia", device="mps") # mps = Apple M2

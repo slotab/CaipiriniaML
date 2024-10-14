@@ -8,6 +8,10 @@ import shutil
 import yaml
 import glob
 
+##############################
+# MAIN SCRIPT OF THE PROJECT !!
+##############################
+
 HOME = os.getcwd()
 print(HOME)
 
@@ -140,31 +144,33 @@ def process_videos(source_directory, class_labels, out_dir):
                     class_label_map = convert_json["class_label"]
                     class_label_from = class_label_map["from"]
                     class_label_to = class_label_map["to"]
+                    confidence = class_label_map.get("confidence", 0.7)                   
+                    
                     print(f"Repertoire : {dirpath}")
                     
-                    annotate_videos(dirpath, class_labels, class_label_from, class_label_to, out_dir)
+                    annotate_videos(dirpath, class_labels, class_label_from, class_label_to, confidence, out_dir)
                     index += 1
 
 
-def annotate_videos(video_dir, class_labels, class_label_from, class_label_to, out_dir):
+def annotate_videos(video_dir, class_labels, class_label_from, class_label_to, confidence, out_dir):
     index = 1
     for video_path in Path(video_dir).rglob("*.MOV"):
         # folder_name_as_label = os.path(images_dir).stem.split("_")[0]
         videos_to_frames(video_path, class_label_to, f"{HOME}/tmp", index)
         target_class_id = class_labels.index(class_label_to)
 
-        annotate_images(f"{HOME}/tmp", class_label_from, target_class_id)
+        annotate_images(f"{HOME}/tmp", class_label_from, target_class_id, confidence)
         move_files(f"{HOME}/tmp", f"{out_dir}/images", "*.jpg")
         move_files(f"{HOME}/tmp", f"{out_dir}/labels", "*.txt")
         index += 1
 
 
-def annotate_images(images_dir, class_label_from, target_class_id):
+def annotate_images(images_dir, class_label_from, target_class_id, confidence):
     for image_path in Path(images_dir).rglob("*.jpg"):
-        annotate_image(image_path, class_label_from, target_class_id)
+        annotate_image(image_path, class_label_from, target_class_id, confidence)
 
 
-def annotate_image(image_path, class_label_from, target_class_id):
+def annotate_image(image_path, class_label_from, target_class_id, confidence=0.7):
     # Annoter les images en utilisant le modèle YOLOv8
     # et sauvegarder les annotations au format YOLO
     img = Image.open(image_path)
@@ -178,7 +184,7 @@ def annotate_image(image_path, class_label_from, target_class_id):
             model_class_id = int(box.cls[0])
             model_class_name = model.names[model_class_id]
             # target_class_id = class_labels.index(class_label_to)
-            if model_class_name in class_label_from and box.conf[0] > 0.7:
+            if model_class_name in class_label_from and box.conf[0] > confidence:
                 x_center, y_center, width, height = convert_to_yolo_format(
                     img_width, img_height, box.xywh[0]
                 )
@@ -234,4 +240,4 @@ def generate_yaml(classes, train_images_dir, val_images_dir, yaml_output_path):
 class_labels = load_class_labels("caipirinia_labels.txt")
 
 
-process_videos(f"{HOME}/../videos/fruits", class_labels, f"{HOME}/dataset/new")
+process_videos(f"{HOME}/../videos/others", class_labels, f"{HOME}/dataset/new")
